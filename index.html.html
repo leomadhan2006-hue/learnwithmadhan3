@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Madhan | AI Video Creator</title>
+<meta name="description" content="Madhan is an AI Video Creator making cinematic stories, product ads and short-form video with AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4EFFF; --card:#fff; --ink:#1A0F3A; --muted:#5E5481;
+  --deep:#3B1B9C; --mid:#7B4DFF; --soft:#D9C9FF; --tint:#EBE2FF;
+  --r:28px; --head:'Bricolage Grotesque','Trebuchet MS',sans-serif; --body:'Manrope','Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.65;overflow-x:hidden;padding-top:env(safe-area-inset-top,0)}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--mid);outline-offset:3px;border-radius:8px}
+.wrap{width:min(1120px,92%);margin-inline:auto}
+section{padding:96px 0}
+h1,h2,h3{font-family:var(--head);line-height:1.08;letter-spacing:-.02em}
+h2{font-size:clamp(2rem,4.5vw,3.2rem);max-width:16ch}
+.lead{color:var(--muted);max-width:56ch;margin-top:16px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;font-weight:700;border:2px solid var(--deep);cursor:pointer;font:700 1rem var(--body);transition:transform .2s,background .2s,color .2s}
+.btn.solid{background:var(--deep);color:#fff}
+.btn.solid:hover{background:var(--mid);border-color:var(--mid);transform:translateY(-2px)}
+.btn.line{background:transparent;color:var(--deep)}
+.btn.line:hover{background:var(--deep);color:#fff;transform:translateY(-2px)}
+
+/* nav */
+header{position:fixed;inset:0 0 auto 0;z-index:50;padding-top:env(safe-area-inset-top,0);transition:background .3s,box-shadow .3s}
+header.stuck{background:rgba(244,239,255,.88);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--soft)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+.logo{font:800 1.5rem var(--head);color:var(--deep)}
+.links{display:flex;gap:30px;font-weight:500}
+.links a{position:relative;padding:4px 0}
+.links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--mid);transition:width .25s}
+.links a:hover::after,.links a.on::after{width:100%}
+.burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer}
+.burger span{display:block;height:3px;background:var(--deep);margin:6px 8px;border-radius:3px;transition:.3s}
+.burger.open span:nth-child(1){transform:translateY(9px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
+
+/* hero */
+.hero{padding:150px 0 90px;position:relative}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(2.8rem,7vw,5.6rem);color:var(--deep)}
+.hero h1 span{display:block;color:var(--ink)}
+.hero .tag{margin:22px 0 32px;font-size:1.15rem;color:var(--muted);max-width:44ch}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.stage{position:relative;aspect-ratio:1;max-width:480px;margin-inline:auto;width:100%}
+.ring{position:absolute;inset:-4%;border:2px dashed var(--mid);border-radius:50%;animation:spin 40s linear infinite;opacity:.55}
+.disc{position:absolute;inset:6%;border-radius:50%;background:var(--soft);overflow:hidden;border:8px solid var(--deep);box-shadow:0 0 0 8px #fff,0 30px 60px -20px rgba(59,27,156,.5)}
+.disc img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.disc .ph{position:absolute;inset:0;display:grid;place-items:center;font:800 7rem var(--head);color:var(--deep)}
+.chip{position:absolute;background:#fff;color:var(--deep);font-weight:700;font-size:.9rem;padding:10px 18px;border-radius:999px;box-shadow:0 10px 30px -10px rgba(59,27,156,.45);animation:bob 5s ease-in-out infinite}
+.chip:nth-of-type(2){top:6%;left:-4%}
+.chip:nth-of-type(3){top:22%;right:-6%;animation-delay:-1.2s}
+.chip:nth-of-type(4){bottom:20%;left:-8%;animation-delay:-2.4s}
+.chip:nth-of-type(5){bottom:4%;right:2%;animation-delay:-3.6s}
+.load>*{opacity:0;transform:translateY(24px);animation:up .8s cubic-bezier(.2,.7,.2,1) forwards}
+.load>*:nth-child(2){animation-delay:.12s}.load>*:nth-child(3){animation-delay:.24s}
+@keyframes up{to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bob{50%{transform:translateY(-10px)}}
+
+/* about */
+.about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.about p+p{margin-top:16px}
+.panel{background:var(--deep);color:#fff;border-radius:var(--r);padding:36px}
+.panel h3{font-size:1.5rem;margin-bottom:18px}
+.panel li{list-style:none;padding:12px 0;border-top:1px solid rgba(255,255,255,.18);display:flex;gap:12px}
+.panel li::before{content:"";width:10px;height:10px;margin-top:9px;border-radius:50%;background:var(--soft);flex:none}
+
+/* skills */
+.tags{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+.tags span{padding:12px 22px;border-radius:999px;background:var(--card);border:2px solid var(--soft);font-weight:700;color:var(--deep);transition:.2s;cursor:default}
+.tags span:hover{background:var(--deep);color:#fff;border-color:var(--deep);transform:translateY(-3px)}
+
+/* what i do */
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin-top:44px}
+.card{background:var(--card);border-radius:var(--r);padding:32px;transition:transform .25s,box-shadow .25s}
+.card:hover{transform:translateY(-6px);box-shadow:0 24px 40px -22px rgba(59,27,156,.5)}
+.card .ic{width:54px;height:54px;border-radius:16px;background:var(--tint);display:grid;place-items:center;margin-bottom:20px}
+.card svg{width:28px;height:28px;stroke:var(--deep);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-size:1.3rem;margin-bottom:10px}
+.card p{color:var(--muted);font-size:.97rem}
+
+/* work */
+.work{background:var(--deep);color:#fff;border-radius:48px 48px 0 0}
+.work h2{color:#fff}.work .lead{color:var(--soft)}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin:34px 0}
+.filters button{padding:10px 22px;border-radius:999px;border:2px solid var(--soft);background:transparent;color:#fff;font:700 .95rem var(--body);cursor:pointer;transition:.2s}
+.filters button.on,.filters button:hover{background:#fff;color:var(--deep);border-color:#fff}
+.projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.proj{background:#fff;color:var(--ink);border-radius:var(--r);overflow:hidden;cursor:pointer;border:0;text-align:left;font:inherit;transition:transform .25s}
+.proj:hover{transform:translateY(-6px)}
+.thumb{aspect-ratio:16/10;display:grid;place-items:center;position:relative;background:linear-gradient(135deg,var(--mid),var(--deep))}
+.proj:nth-child(2) .thumb{background:linear-gradient(135deg,#B79BFF,var(--mid))}
+.proj:nth-child(3) .thumb{background:linear-gradient(135deg,var(--deep),#1A0F3A)}
+.play{width:68px;height:68px;border-radius:50%;background:#fff;display:grid;place-items:center;transition:transform .25s}
+.play::after{content:"";border-left:18px solid var(--deep);border-block:11px solid transparent;margin-left:5px}
+.proj:hover .play{transform:scale(1.15)}
+.meta{padding:24px 26px 28px}
+.meta small{color:var(--mid);font-weight:700}
+.meta h3{font-size:1.35rem;margin:6px 0 8px}
+.meta p{color:var(--muted);font-size:.95rem}
+.hide{display:none}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:20px;margin-top:44px;counter-reset:s}
+.step{border-top:4px solid var(--mid);padding-top:18px;counter-increment:s}
+.step::before{content:counter(s);display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--deep);color:#fff;font:700 1rem var(--head);margin-bottom:14px}
+.step h3{font-size:1.2rem;margin-bottom:6px}.step p{color:var(--muted);font-size:.95rem}
+
+/* services */
+.svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:40px}
+.svc div{background:var(--card);border-radius:20px;padding:22px 26px;font:700 1.1rem var(--head);display:flex;justify-content:space-between;align-items:center;transition:.2s;color:var(--deep)}
+.svc div::after{content:"+";font-size:1.6rem;transition:transform .3s}
+.svc div:hover{background:var(--deep);color:#fff}.svc div:hover::after{transform:rotate(90deg)}
+
+/* contact */
+.contact .box{background:var(--deep);color:#fff;border-radius:48px;padding:clamp(32px,6vw,72px);display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.contact h2{color:#fff;max-width:12ch}.contact p{color:var(--soft);margin-top:16px}
+.contact .links2{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px}
+.contact .links2 a{padding:9px 18px;border:2px solid var(--soft);border-radius:999px;font-weight:700;font-size:.9rem;transition:.2s}
+.contact .links2 a:hover{background:#fff;color:var(--deep)}
+form{display:grid;gap:14px}
+label{font-weight:700;font-size:.9rem}
+input,textarea{width:100%;margin-top:6px;padding:14px 16px;border-radius:14px;border:2px solid transparent;background:rgba(255,255,255,.12);color:#fff;font:1rem var(--body)}
+input::placeholder,textarea::placeholder{color:#cdbfff}
+input:focus,textarea:focus{outline:none;border-color:#fff;background:rgba(255,255,255,.18)}
+form .btn{background:#fff;color:var(--deep);border-color:#fff;justify-content:center}
+form .btn:hover{background:var(--soft);border-color:var(--soft)}
+#msg{min-height:1.4em;font-weight:700;color:var(--soft)}
+footer{padding:36px 0 calc(36px + env(safe-area-inset-bottom,0));text-align:center;color:var(--muted);font-size:.9rem}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:100;background:rgba(26,15,58,.82);display:none;place-items:center;padding:20px}
+.modal.open{display:grid}
+.modal .in{background:#fff;border-radius:var(--r);width:min(780px,100%);padding:24px;position:relative;animation:up .35s forwards;opacity:0}
+.modal .x{position:absolute;top:10px;right:14px;font-size:2rem;background:none;border:0;cursor:pointer;color:var(--deep);width:44px;height:44px}
+.modal .vid{aspect-ratio:16/9;border-radius:18px;background:var(--tint);display:grid;place-items:center;text-align:center;padding:24px;color:var(--muted);margin:26px 0 16px;overflow:hidden}
+.modal iframe{width:100%;height:100%;border:0}
+
+@media(max-width:860px){
+  section{padding:70px 0}
+  .hero{padding-top:120px}
+  .hero .wrap,.about .wrap,.contact .box{grid-template-columns:1fr}
+  .stage{max-width:340px;order:-1}
+  .burger{display:block}
+  .links{position:fixed;inset:74px 0 auto 0;flex-direction:column;gap:0;background:var(--bg);padding:10px 6% 24px;transform:translateY(-130%);transition:transform .35s;box-shadow:0 20px 30px -20px rgba(59,27,156,.4)}
+  .links.open{transform:none}
+  .links a{padding:14px 0;font-size:1.15rem}
+  .work{border-radius:32px 32px 0 0}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.load>*{opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header id="top">
+  <div class="wrap nav">
+    <a href="#home" class="logo">Madhan</a>
+    <button class="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="links" id="links" aria-label="Main">
+      <a href="#about">About</a><a href="#skills">Skills</a><a href="#do">What I do</a><a href="#work">Projects</a><a href="#process">Approach</a><a href="#services">Services</a><a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="home">
+<section class="hero">
+  <div class="wrap">
+    <div class="load">
+      <h1>Madhan <span>AI Video Creator</span></h1>
+      <p class="tag">I turn ideas into cinematic videos with AI tools, storytelling and careful editing.</p>
+      <div class="cta"><a class="btn solid" href="#work">View my projects</a><a class="btn line" href="#contact">Let's work together</a></div>
+    </div>
+    <div class="stage">
+      <div class="ring"></div>
+      <div class="disc"><div class="ph" aria-hidden="true">M</div><img src="Madhan.png" alt="Portrait of Madhan" onerror="this.remove()"></div>
+      <span class="chip">AI Video</span><span class="chip">Storytelling</span><span class="chip">Editing</span><span class="chip">Visuals</span>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div>
+      <h2>About me</h2>
+      <p class="lead">I am an AI Video Creator focused on creating engaging visual content using AI-powered video generation tools.</p>
+      <p class="lead">I combine creativity, visual storytelling and video editing to develop cinematic and compelling video content.</p>
+    </div>
+    <div class="panel">
+      <h3>What I pay attention to</h3>
+      <ul><li>Visual quality</li><li>Character consistency</li><li>Scene continuity</li><li>Cinematic presentation</li><li>Storytelling</li><li>Editing and pacing</li></ul>
+    </div>
+  </div>
+</section>
+
+<section id="skills" style="padding-top:0">
+  <div class="wrap">
+    <h2>Skills</h2>
+    <div class="tags">
+      <span>AI Video Generation</span><span>AI-Assisted Visual Creation</span><span>Cinematic Storytelling</span><span>Video Editing</span><span>AI Image Generation</span><span>Character &amp; Visual Consistency</span><span>Scene &amp; Story Development</span><span>Creative Video Production</span>
+    </div>
+  </div>
+</section>
+
+<section id="do" style="padding-top:0">
+  <div class="wrap">
+    <h2>What I do</h2>
+    <div class="grid4">
+      <div class="card"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4-2.5z"/></svg></div><h3>AI Video Creation</h3><p>Visually engaging videos made with AI generation workflows, with attention to cinematic visuals, storytelling and scene continuity.</p></div>
+      <div class="card"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="6" cy="7" r="3"/><circle cx="6" cy="17" r="3"/><path d="M8.5 8.5L20 18M8.5 15.5L20 6"/></svg></div><h3>Video Editing</h3><p>Editing and refining footage to improve pacing, visual flow, transitions and overall presentation.</p></div>
+      <div class="card"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></div><h3>Visual Storytelling</h3><p>Developing stories and converting concepts into structured visual scenes for short-form and cinematic video.</p></div>
+      <div class="card"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg></div><h3>AI Creative Production</h3><p>Using AI tools to develop characters, environments, products and the visual assets a video needs.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="work" id="work">
+  <div class="wrap">
+    <h2>Projects</h2>
+    <p class="lead">A look at the kinds of work I create. Select a project to open it.</p>
+    <div class="filters" role="group" aria-label="Filter projects">
+      <button class="on" data-f="all">All</button><button data-f="story">Story</button><button data-f="ad">Advertisement</button><button data-f="short">Short-form</button>
+    </div>
+    <div class="projects" id="projects"></div>
+  </div>
+</section>
+
+<section id="process" style="padding-bottom:40px">
+  <div class="wrap">
+    <h2>Creative approach</h2>
+    <p class="lead">My approach combines AI technology with creative storytelling to produce visually engaging, professional video content.</p>
+    <div class="steps">
+      <div class="step"><h3>Concept</h3><p>Shape the idea into a clear story or message.</p></div>
+      <div class="step"><h3>Scenes</h3><p>Plan structured scenes and visual direction.</p></div>
+      <div class="step"><h3>Generate</h3><p>Create characters, environments and shots with AI.</p></div>
+      <div class="step"><h3>Edit</h3><p>Refine pacing, flow and transitions.</p></div>
+      <div class="step"><h3>Deliver</h3><p>Export a polished, complete video.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <h2>Services</h2>
+    <div class="svc">
+      <div>AI Video Creation</div><div>AI Advertisement Videos</div><div>AI Story Videos</div><div>Cinematic AI Videos</div><div>AI Image &amp; Visual Creation</div><div>Video Editing</div><div>Short-Form Video Content</div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact" style="padding-top:0">
+  <div class="wrap">
+    <div class="box">
+      <div>
+        <h2>Interested in working together?</h2>
+        <p>Let's create engaging visual content with AI.</p>
+        <div class="links2" id="social"></div>
+      </div>
+      <form id="form">
+        <label>Name<input name="name" required autocomplete="name" placeholder="Your name"></label>
+        <label>Email<input name="email" type="email" required autocomplete="email" placeholder="you@example.com"></label>
+        <label>Project details<textarea name="msg" rows="4" required placeholder="Tell me about your video idea"></textarea></label>
+        <button class="btn" type="submit">Send message</button>
+        <div id="msg" role="status"></div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">&copy; <span id="yr"></span> Madhan. AI Video Creator.</div></footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
+  <div class="in">
+    <button class="x" aria-label="Close">&times;</button>
+    <small id="mc" style="color:var(--mid);font-weight:700"></small>
+    <h3 id="mt" style="font-size:1.6rem"></h3>
+    <div class="vid" id="mv"></div>
+    <p id="md" style="color:var(--muted)"></p>
+  </div>
+</div>
+
+<script>
+/* ===== EDIT THIS SECTION ===== */
+const CONFIG = {
+  email: "your-email@example.com",           // replace with your email
+  social: [                                   // replace each # with your real link
+    {name:"Instagram", url:"#"},
+    {name:"YouTube",   url:"#"},
+    {name:"LinkedIn",  url:"#"}
+  ]
+};
+const PROJECTS = [
+  {cat:"story", label:"Cinematic AI Story", title:"AI Cinematic Story Projects",
+   text:"AI-generated storytelling with character development, cinematic environments, scene planning and visual continuity.", video:""},
+  {cat:"ad", label:"Product Advertisement", title:"AI Product Advertisement Concepts",
+   text:"Product ad concepts that combine product visuals, characters, environments and cinematic storytelling.", video:""},
+  {cat:"short", label:"Short-Form Content", title:"AI Short-Form Video Content",
+   text:"Short AI video concepts built around engaging visuals, storytelling and concise scene-based production.", video:""}
+  // To show a real video, set video to a YouTube embed link, e.g. "https://www.youtube.com/embed/VIDEO_ID"
+];
+/* ============================= */
+
+const $ = s => document.querySelector(s);
+$("#yr").textContent = new Date().getFullYear();
+
+// nav
+const hdr = $("header"), burger = $(".burger"), links = $("#links");
+addEventListener("scroll", () => hdr.classList.toggle("stuck", scrollY > 20), {passive:true});
+burger.onclick = () => {
+  const o = links.classList.toggle("open");
+  burger.classList.toggle("open", o);
+  burger.setAttribute("aria-expanded", o);
+};
+links.querySelectorAll("a").forEach(a => a.onclick = () => { links.classList.remove("open"); burger.classList.remove("open"); });
+const secs = [...links.querySelectorAll("a")].map(a => ({a, s:$(a.getAttribute("href"))}));
+const spy = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) secs.forEach(y => y.a.classList.toggle("on", y.s === e.target));
+}), {rootMargin:"-45% 0px -50% 0px"});
+secs.forEach(x => spy.observe(x.s));
+
+// projects
+const grid = $("#projects");
+PROJECTS.forEach((p, i) => {
+  const b = document.createElement("button");
+  b.className = "proj"; b.dataset.cat = p.cat;
+  b.innerHTML = `<div class="thumb"><span class="play"></span></div><div class="meta"><small>${p.label}</small><h3>${p.title}</h3><p>${p.text}</p></div>`;
+  b.onclick = () => openModal(p);
+  grid.appendChild(b);
+});
+document.querySelectorAll(".filters button").forEach(btn => btn.onclick = () => {
+  document.querySelectorAll(".filters button").forEach(x => x.classList.toggle("on", x === btn));
+  grid.querySelectorAll(".proj").forEach(c => c.classList.toggle("hide", btn.dataset.f !== "all" && c.dataset.cat !== btn.dataset.f));
+});
+
+// modal
+const modal = $("#modal");
+function openModal(p){
+  $("#mc").textContent = p.label; $("#mt").textContent = p.title; $("#md").textContent = p.text;
+  $("#mv").innerHTML = p.video
+    ? `<iframe src="${p.video}" title="${p.title}" allowfullscreen loading="lazy"></iframe>`
+    : "Video coming soon. Add a video link for this project in the PROJECTS list inside the code.";
+  modal.classList.add("open"); modal.querySelector(".x").focus();
+}
+function closeModal(){ modal.classList.remove("open"); $("#mv").innerHTML = ""; }
+modal.querySelector(".x").onclick = closeModal;
+modal.onclick = e => { if (e.target === modal) closeModal(); };
+addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+// contact
+$("#social").innerHTML = CONFIG.social.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join("");
+$("#form").onsubmit = e => {
+  e.preventDefault();
+  const d = new FormData(e.target);
+  const body = `${d.get("msg")}\n\nFrom: ${d.get("name")} (${d.get("email")})`;
+  location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent("Video project enquiry")}&body=${encodeURIComponent(body)}`;
+  $("#msg").textContent = "Opening your email app to send this message.";
+};
+</script>
+</body>
+</html>
